@@ -1,6 +1,7 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
+const Port = process.env.port || 5000;
+const app = express();
 
 
 mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true});
@@ -9,7 +10,9 @@ connection.once("open",()=>{
     console.log("MongoDb connected")
 })
 
-const Port = process.env.port || 5000;
+//Middleware
+const userRoute = require("./routes/user");
+app.use("/user", userRoute);
 
 app.route("/").get((req, res) => res.json("first api"))
 
