@@ -3,6 +3,31 @@ const User = require("../models/users.model");
 
 const router = express.Router();
 
+router.route("/:username").get((req, res) => {
+    User.find({ username: req.params.username},
+        (err, result) => {
+            if (err) res.status(500).json({msg});
+            res.json({
+                data: result,
+                username: req.params.username,
+            });
+    });
+});
+
+router.route("/login").post((req, res) => {
+    User.findOne({ username: req.body.username }, (err, result) => {
+        if (err) return res.status(500).json({ msg });
+        if (result === null) {
+            return res.status(403).json("Username incorrect");
+        }
+        if (result.password === req.body.password) {
+            res.json("OK")
+        } else {
+            res.status(403).json("password is incorrect");
+        }
+    });
+});
+
 router.route("/register").post((req, res) => {
     console.log("inside the register");
     const user = new User({
