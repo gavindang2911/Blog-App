@@ -1,9 +1,13 @@
 const express = require("express");
 const User = require("../models/users.model");
+const config= require("../config");
+const jwt = require("jsonwebtoken");
+const middleware = require("../middleware");
+
 
 const router = express.Router();
 
-router.route("/:username").get((req, res) => {
+router.route("/:username").get(middleware.checkToken, (req, res) => {
     User.find({ username: req.params.username},
         (err, result) => {
             if (err) res.status(500).json({msg});
@@ -21,7 +25,13 @@ router.route("/login").post((req, res) => {
             return res.status(403).json("Username incorrect");
         }
         if (result.password === req.body.password) {
-            res.json("OK")
+            let token = jwt.sign({ username: req.body.username }, config.key, {
+                expiresIn: "24h"
+            });
+            res.json({
+                token: token,
+                msg: "Success",
+            })
         } else {
             res.status(403).json("password is incorrect");
         }
@@ -43,7 +53,7 @@ router.route("/register").post((req, res) => {
     });
 });
 
-router.route("/update/:username").patch((req, res) => {
+router.route("/update/:username").patch(middleware.checkToken, (req, res) => {
     User.findOneAndUpdate(
         { username: req.params.username },
         { $set: { password: req.body.password }},
@@ -58,7 +68,7 @@ router.route("/update/:username").patch((req, res) => {
     )
 });
 
-router.route("/delete/:username").delete((req, res) => {
+router.route("/delete/:username").delete(middleware.checkToken, (req, res) => {
     User.findOneAndDelete(
         { username: req.params.username},
         (err, result) => {
