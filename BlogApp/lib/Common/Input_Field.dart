@@ -7,6 +7,8 @@ class InputFormCommon extends StatelessWidget {
   final String hintText;
   final bool isPassword;
   final Function onTapHiddenPassword;
+  final String errorText;
+  final bool hasErrorText;
 
   const InputFormCommon(
       {Key key,
@@ -15,13 +17,16 @@ class InputFormCommon extends StatelessWidget {
       this.keyboardType,
       this.hintText,
       this.isPassword,
-      this.onTapHiddenPassword})
+      this.onTapHiddenPassword,
+      this.errorText,
+      this.hasErrorText})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
+        errorText: hasErrorText ? null : errorText,
         suffixIcon: isPassword != null
             ? IconButton(
                 icon:

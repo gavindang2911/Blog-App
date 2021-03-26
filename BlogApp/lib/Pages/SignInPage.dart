@@ -1,13 +1,14 @@
 import 'package:BlogApp/Common/Input_Field.dart';
 import 'package:BlogApp/NetworkHandler.dart';
+import 'package:BlogApp/Pages/SignUpPage.dart';
 import 'package:flutter/material.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool _autovalidate;
   TextEditingController _emailController;
@@ -63,30 +64,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   InputFormCommon(
-                    validator: _validateEmail,
+                    validator: null,
                     controller: _userController,
                     hintText: "Enter User Name",
                     hasErrorText: validate,
                     errorText: errorText,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
-                    child: Text(
-                      "Email Adrress",
-                      style: Theme.of(context)
-                          .textTheme
-                          .body1
-                          .apply(color: Colors.white),
-                    ),
-                  ),
-                  InputFormCommon(
-                    validator: _validateEmail,
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: "Enter Email Address",
                   ),
                   SizedBox(
                     height: 12,
@@ -115,6 +97,34 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(
                     height: 40,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Forgot password",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpPage()))
+                        },
+                                              child: Text(
+                          "New User?",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
                   circular
                       ? CircularProgressIndicator()
                       : RaisedButton(
@@ -123,7 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           padding: const EdgeInsets.all(16),
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(8.0)),
-                          child: Text('LOGIN'),
+                          child: Text('SIGN IN'),
                           onPressed: _validateFormAndLogin),
                 ],
               ),
@@ -132,78 +142,13 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  checkUser() async {
-    if (_userController.text.length == 0) {
-      setState(() {
-        circular = false;
-        validate = false;
-        errorText = "Username can't be empty";
-      });
-    } else {
-      var response = await networkHandler
-          .get("/user/checkUsername/${_userController.text}");
-      if (response['Status']) {
-        setState(() {
-          circular = false;
-          validate = false;
-          errorText = "Username already taken";
-        });
-      } else {
-        setState(() {
-          validate = true;
-        });
-      }
-    }
-  }
-
   Future<void> _validateFormAndLogin() async {
-    setState(() {
-      circular = true;
-    });
-    await checkUser();
-    // Get form state from the global key
-    var formState = _key.currentState;
-
-    // check if form is valid
-    if (formState.validate() && validate) {
-      ///ToDo send the data to rest server
-      Map<String, String> data = {
-        "Username": _userController.text,
-        "email": _emailController.text,
-        "password": _passwordController.text,
-      };
-      await networkHandler.post("/user/register", data);
-      setState(() {
-        circular = false;
-      });
-      print('Form is valid');
-    } else {
-      // show validation errors
-      // setState forces our [State] to rebuild
-      setState(() {
-        circular = false;
-        _autovalidate = true;
-      });
-    }
+    //TODO Another method for signin
   }
 
   String _validateRequired(String val, fieldName) {
     if (val == null || val == '') {
       return '$fieldName is required';
-    }
-    return null;
-  }
-
-  String _validateEmail(String value) {
-    if (value == null || value == '') {
-      return 'Email is required';
-    }
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-
-    if (!regex.hasMatch(value)) {
-      return 'Enter valid email address';
     }
     return null;
   }
