@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:BlogApp/Common/Input_Field.dart';
 import 'package:BlogApp/NetworkHandler.dart';
 import 'package:BlogApp/Pages/SignUpPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'HomePage.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -11,7 +16,6 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool _autovalidate;
-  TextEditingController _emailController;
   TextEditingController _passwordController;
   TextEditingController _userController;
   bool vis = true;
@@ -19,13 +23,13 @@ class _SignInPageState extends State<SignInPage> {
   String errorText;
   bool validate = false;
   bool circular = false;
+  final storage = new FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
     _autovalidate = false;
     _userController = TextEditingController();
-    _emailController = TextEditingController();
     _passwordController = TextEditingController();
   }
 
@@ -88,6 +92,8 @@ class _SignInPageState extends State<SignInPage> {
                     controller: _passwordController,
                     hintText: "Enter Password",
                     isPassword: vis,
+                    hasErrorText: validate,
+                    errorText: errorText,
                     onTapHiddenPassword: () {
                       setState(() {
                         vis = !vis;
@@ -111,11 +117,11 @@ class _SignInPageState extends State<SignInPage> {
                       InkWell(
                         onTap: () {
                           Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpPage()))
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
                         },
-                                              child: Text(
+                        child: Text(
                           "New User?",
                           style: TextStyle(
                               color: Colors.white,
@@ -143,7 +149,37 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<void> _validateFormAndLogin() async {
+    setState(() {
+      circular = true;
+    });
     //TODO Another method for signin
+    Map<String, String> data = {
+      "username": _userController.text,
+      "password": _passwordController.text,
+    };
+    var responseLogin = await networkHandler.post("/user/login", data);
+    if (responseLogin.statusCode == 200 || responseLogin.statusCode == 201) {
+      Map<String, dynamic> output = json.decode(responseLogin.body);
+      print(output["token"]);
+      await storage.write(key: "token", value: output["token"]);
+      setState(() {
+        validate = true;
+        circular = false;
+      });
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+          (route) => false);
+    } else {
+      String output = json.decode(responseLogin.body);
+      setState(() {
+        validate = false;
+        errorText = output;
+        circular = false;
+      });
+    }
   }
 
   String _validateRequired(String val, fieldName) {

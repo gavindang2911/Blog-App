@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:BlogApp/Common/Input_Field.dart';
 import 'package:BlogApp/NetworkHandler.dart';
 import 'package:flutter/material.dart';
@@ -168,11 +170,28 @@ class _SignUpPageState extends State<SignUpPage> {
     if (formState.validate() && validate) {
       ///ToDo send the data to rest server
       Map<String, String> data = {
-        "Username": _userController.text,
+        "username": _userController.text,
         "email": _emailController.text,
         "password": _passwordController.text,
       };
-      await networkHandler.post("/user/register", data);
+      print(data);
+      var responseRegister = await networkHandler.post("/user/register", data);
+      //Logic
+      if (responseRegister.statusCode == 200 ||
+          responseRegister.statusCode == 201) {
+        Map<String, String> data = {
+          "username": _userController.text,
+          "password": _passwordController.text,
+        };
+        var responseLogin = await networkHandler.post("/user/login", data);
+        if (responseLogin.statusCode == 200 ||
+            responseLogin.statusCode == 201) {
+          Map<String, dynamic> output = json.decode(responseLogin.body);
+          print(output["token"]);
+          await storage.write(key: "token", value: output["token"]);
+        }
+      }
+
       setState(() {
         circular = false;
       });
