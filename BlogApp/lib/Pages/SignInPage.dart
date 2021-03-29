@@ -36,131 +36,148 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
-      child: Form(
-        key: _key,
-        autovalidate: _autovalidate,
-        child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Sign in",
-              style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 2,
-                  color: Colors.white60),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 14, bottom: 14),
-              child: Text(
-                "User name",
-                style: Theme.of(context)
-                    .textTheme
-                    .body1
-                    .apply(color: Colors.white),
-              ),
-            ),
-            InputFormCommon(
-              validator: null,
-              controller: _userController,
-              hintText: "Enter User Name",
-              hasErrorText: validate,
-              errorText: errorText,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 14, bottom: 14),
-              child: Text(
-                "Password",
-                style: Theme.of(context)
-                    .textTheme
-                    .body1
-                    .apply(color: Colors.white),
-              ),
-            ),
-            InputFormCommon(
-              validator: (val) => _validateRequired(val, 'Password'),
-              controller: _passwordController,
-              hintText: "Enter Password",
-              isPassword: vis,
-              hasErrorText: validate,
-              errorText: errorText,
-              onTapHiddenPassword: () {
-                setState(() {
-                  vis = !vis;
-                });
-              },
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Text("Forgot password",
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 20,
-            ),
-            RaisedButton(
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(16),
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(8.0)),
-                child: circular ? CircularProgressIndicator() : Text('SIGN IN'),
-                onPressed: _validateFormAndLogin),
-            SizedBox(
-              height: 20,
-            ),
-            boxContainer("assets/google.png", "Sign up with Google", null),
-            SizedBox(
-              height: 20,
-            ),
-            boxContainer("assets/facebook1.png", "Sign up with Facebook", null),
-            SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Scaffold(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: Color(0xff4A37D2),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 25, right: 25, bottom: 20, top: 35),
+          child: Form(
+            key: _key,
+            autovalidate: _autovalidate,
+            child: ListView(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "New User ? ",
+                  "Sign in",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
+                      fontSize: 38,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 2,
+                      color: Colors.white60),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 14, bottom: 14),
+                  child: Text(
+                    "User name",
+                    style: Theme.of(context)
+                        .textTheme
+                        .body1
+                        .apply(color: Colors.white),
                   ),
+                ),
+                InputFormCommon(
+                  validator: null,
+                  controller: _userController,
+                  hintText: "Enter User Name",
+                  hasErrorText: validate,
+                  errorText: errorText,
                 ),
                 SizedBox(
-                  width: 10,
+                  height: 10,
                 ),
-                InkWell(
-                  onTap: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //   builder: (context) => SignInPage(),
-                    // ));
-                    onSignUpClick();
-                  },
+                Padding(
+                  padding: EdgeInsets.only(top: 14, bottom: 14),
                   child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        color: Colors.green.shade300,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
+                    "Password",
+                    style: Theme.of(context)
+                        .textTheme
+                        .body1
+                        .apply(color: Colors.white),
                   ),
+                ),
+                InputFormCommon(
+                  validator: (val) => _validateRequired(val, 'Password'),
+                  controller: _passwordController,
+                  hintText: "Enter Password",
+                  isPassword: vis,
+                  hasErrorText: validate,
+                  errorText: errorText,
+                  onTapHiddenPassword: () {
+                    setState(() {
+                      vis = !vis;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Text("Forgot password",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 16,
+                ),
+                circular
+                    ? Container(
+                        width: 24.0,
+                        height: 44.0,
+                        padding:
+                            EdgeInsets.only(top: 20.0, left: 50, right: 50),
+                        child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.grey)))
+                    : RaisedButton(
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        padding: const EdgeInsets.all(16),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(8.0)),
+                        child: Text('SIGN IN'),
+                        onPressed: _validateFormAndLogin),
+                SizedBox(
+                  height: 16,
+                ),
+                boxContainer("assets/google.png", "Sign up with Google", null),
+                SizedBox(
+                  height: 16,
+                ),
+                boxContainer(
+                    "assets/facebook1.png", "Sign up with Facebook", null),
+                SizedBox(
+                  height: 46,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "New User ? ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: (context) => SignInPage(),
+                        // ));
+                        onSignUpClick();
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            color: Colors.green.shade300,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
                 )
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );

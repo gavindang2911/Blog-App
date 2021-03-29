@@ -8,36 +8,7 @@ class WelcomePage extends StatefulWidget {
   _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage>
-    with TickerProviderStateMixin {
-  AnimationController _controller1;
-  Animation<Offset> animation1;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _controller1 = AnimationController(
-      duration: Duration(milliseconds: 1500),
-      vsync: this,
-    );
-
-    animation1 = Tween<Offset>(
-      begin: Offset(0.0, 1.0),
-      end: Offset(0.0, 1.0),
-    ).animate(
-      CurvedAnimation(parent: _controller1, curve: Curves.bounceIn),
-    );
-    _controller1.forward();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _controller1.dispose();
-  }
-
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +16,8 @@ class _WelcomePageState extends State<WelcomePage>
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [Colors.white, Colors.purple[900]],
-          begin: const FractionalOffset(0.0, 1.0),
-          end: const FractionalOffset(0.0, 1.0),
-          stops: [0.0, 1.0],
-          tileMode: TileMode.repeated,
-        )),
+          color: Color(0xff4A37D2),
+        ),
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
             child: Column(

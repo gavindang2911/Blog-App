@@ -121,16 +121,23 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Colors.white,
-                      padding: const EdgeInsets.all(16),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(8.0)),
-                      child: circular
-                          ? CircularProgressIndicator()
-                          : Text('LOGIN'),
-                      onPressed: _validateFormAndLogin),
+                  circular
+                      ? Container(
+                          width: 24.0,
+                          height: 44.0,
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: CircularProgressIndicator(
+                              strokeWidth: 1.5,
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.grey)))
+                      : RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          textColor: Colors.white,
+                          padding: const EdgeInsets.all(16),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(8.0)),
+                          child: Text('LOGIN'),
+                          onPressed: _validateFormAndLogin),
                 ],
               ),
             ),
