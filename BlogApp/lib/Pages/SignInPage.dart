@@ -36,128 +36,140 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-              colors: [Colors.white, Colors.purple[900]],
-              begin: const FractionalOffset(0.0, 1.0),
-              end: const FractionalOffset(0.0, 1.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.repeated,
+    return Padding(
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
+      child: Form(
+        key: _key,
+        autovalidate: _autovalidate,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Sign in",
+              style: TextStyle(
+                  fontSize: 38,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 2,
+                  color: Colors.white60),
             ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 20, top: 100),
-            child: Form(
-              key: _key,
-              autovalidate: _autovalidate,
-              child: ListView(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Sign in",
-                    style: TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 2,
-                        color: Colors.white60),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
-                    child: Text(
-                      "User name",
-                      style: Theme.of(context)
-                          .textTheme
-                          .body1
-                          .apply(color: Colors.white),
-                    ),
-                  ),
-                  InputFormCommon(
-                    validator: null,
-                    controller: _userController,
-                    hintText: "Enter User Name",
-                    hasErrorText: validate,
-                    errorText: errorText,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16, bottom: 16),
-                    child: Text(
-                      "Password",
-                      style: Theme.of(context)
-                          .textTheme
-                          .body1
-                          .apply(color: Colors.white),
-                    ),
-                  ),
-                  InputFormCommon(
-                    validator: (val) => _validateRequired(val, 'Password'),
-                    controller: _passwordController,
-                    hintText: "Enter Password",
-                    isPassword: vis,
-                    hasErrorText: validate,
-                    errorText: errorText,
-                    onTapHiddenPassword: () {
-                      setState(() {
-                        vis = !vis;
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Forgot password",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold)),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpPage()));
-                        },
-                        child: Text(
-                          "New User?",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  circular
-                      ? CircularProgressIndicator()
-                      : RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.all(16),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(8.0)),
-                          child: Text('SIGN IN'),
-                          onPressed: _validateFormAndLogin),
-                ],
+            Padding(
+              padding: EdgeInsets.only(top: 14, bottom: 14),
+              child: Text(
+                "User name",
+                style: Theme.of(context)
+                    .textTheme
+                    .body1
+                    .apply(color: Colors.white),
               ),
             ),
-          )),
+            InputFormCommon(
+              validator: null,
+              controller: _userController,
+              hintText: "Enter User Name",
+              hasErrorText: validate,
+              errorText: errorText,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 14, bottom: 14),
+              child: Text(
+                "Password",
+                style: Theme.of(context)
+                    .textTheme
+                    .body1
+                    .apply(color: Colors.white),
+              ),
+            ),
+            InputFormCommon(
+              validator: (val) => _validateRequired(val, 'Password'),
+              controller: _passwordController,
+              hintText: "Enter Password",
+              isPassword: vis,
+              hasErrorText: validate,
+              errorText: errorText,
+              onTapHiddenPassword: () {
+                setState(() {
+                  vis = !vis;
+                });
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Text("Forgot password",
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 20,
+            ),
+            RaisedButton(
+                color: Theme.of(context).primaryColor,
+                textColor: Colors.white,
+                padding: const EdgeInsets.all(16),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(8.0)),
+                child: circular ? CircularProgressIndicator() : Text('SIGN IN'),
+                onPressed: _validateFormAndLogin),
+            SizedBox(
+              height: 20,
+            ),
+            boxContainer("assets/google.png", "Sign up with Google", null),
+            SizedBox(
+              height: 20,
+            ),
+            boxContainer("assets/facebook1.png", "Sign up with Facebook", null),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "New User ? ",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                InkWell(
+                  onTap: () {
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //   builder: (context) => SignInPage(),
+                    // ));
+                    onSignUpClick();
+                  },
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        color: Colors.green.shade300,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
+  }
+
+  onSignUpClick() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => SignUpPage(),
+    ));
   }
 
   Future<void> _validateFormAndLogin() async {
@@ -200,5 +212,39 @@ class _SignInPageState extends State<SignInPage> {
       return '$fieldName is required';
     }
     return null;
+  }
+
+  Widget boxContainer(String path, String text, onClick) {
+    return InkWell(
+      onTap: onClick,
+      child: Container(
+        height: 60,
+        width: MediaQuery.of(context).size.width * 140,
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: <Widget>[
+                Image.asset(
+                  path,
+                  height: 30,
+                  width: 40,
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

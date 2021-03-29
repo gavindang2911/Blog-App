@@ -5,6 +5,8 @@ import 'package:BlogApp/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'HomePage.dart';
+
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -119,16 +121,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(
                     height: 40,
                   ),
-                  circular
-                      ? CircularProgressIndicator()
-                      : RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          textColor: Colors.white,
-                          padding: const EdgeInsets.all(16),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(8.0)),
-                          child: Text('LOGIN'),
-                          onPressed: _validateFormAndLogin),
+                  RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      padding: const EdgeInsets.all(16),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(8.0)),
+                      child: circular
+                          ? CircularProgressIndicator()
+                          : Text('LOGIN'),
+                      onPressed: _validateFormAndLogin),
                 ],
               ),
             ),
@@ -191,7 +193,20 @@ class _SignUpPageState extends State<SignUpPage> {
           Map<String, dynamic> output = json.decode(responseLogin.body);
           print(output["token"]);
           await storage.write(key: "token", value: output["token"]);
+          setState(() {
+            validate = true;
+            circular = false;
+          });
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomePage(),
+              ),
+              (route) => false);
         }
+      } else {
+        Scaffold.of(context)
+            .showSnackBar(SnackBar(content: Text("Netwok Error")));
       }
 
       setState(() {
