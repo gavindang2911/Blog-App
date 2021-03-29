@@ -26,7 +26,7 @@ class InputFormCommon extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       decoration: InputDecoration(
-        errorText: hasErrorText ? null : errorText,
+        errorText: hasErrorText != null ? errorText : null,
         suffixIcon: isPassword != null
             ? IconButton(
                 icon:

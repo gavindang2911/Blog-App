@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:BlogApp/Common/Input_Field.dart';
 import 'package:BlogApp/NetworkHandler.dart';
@@ -57,6 +58,14 @@ class _SignInPageState extends State<SignInPage> {
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Text(
+                    "Sign in",
+                    style: TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 2,
+                        color: Colors.white60),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 16),
                     child: Text(
@@ -112,7 +121,7 @@ class _SignInPageState extends State<SignInPage> {
                               fontSize: 18,
                               fontWeight: FontWeight.bold)),
                       SizedBox(
-                        width: 20,
+                        width: 50,
                       ),
                       InkWell(
                         onTap: () {
@@ -130,6 +139,9 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   circular
                       ? CircularProgressIndicator()
@@ -173,6 +185,7 @@ class _SignInPageState extends State<SignInPage> {
           ),
           (route) => false);
     } else {
+      print(responseLogin.body);
       String output = json.decode(responseLogin.body);
       setState(() {
         validate = false;

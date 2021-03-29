@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:BlogApp/Common/Input_Field.dart';
 import 'package:BlogApp/NetworkHandler.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String errorText;
   bool validate = false;
   bool circular = false;
+  final storage = new FlutterSecureStorage();
 
   @override
   void initState() {
@@ -65,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   InputFormCommon(
-                    validator: _validateEmail,
+                    validator: null,
                     controller: _userController,
                     hintText: "Enter User Name",
                     hasErrorText: validate,
