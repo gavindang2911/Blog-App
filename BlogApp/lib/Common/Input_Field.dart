@@ -9,6 +9,7 @@ class InputFormCommon extends StatelessWidget {
   final Function onTapHiddenPassword;
   final String errorText;
   final bool hasErrorText;
+  final Icon icon;
 
   const InputFormCommon(
       {Key key,
@@ -19,7 +20,8 @@ class InputFormCommon extends StatelessWidget {
       this.isPassword,
       this.onTapHiddenPassword,
       this.errorText,
-      this.hasErrorText})
+      this.hasErrorText,
+      this.icon})
       : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class InputFormCommon extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         errorText: hasErrorText != null ? errorText : null,
+        prefixIcon: icon != null ? icon : null,
         suffixIcon: isPassword != null
             ? IconButton(
                 icon:
