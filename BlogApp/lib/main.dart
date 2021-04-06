@@ -44,6 +44,6 @@ class _MyAppState extends State<MyApp> {
             Theme.of(context).textTheme,
           ),
         ),
-        home: page;
+        home: page);
   }
 }
