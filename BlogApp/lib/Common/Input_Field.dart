@@ -10,6 +10,7 @@ class InputFormCommon extends StatelessWidget {
   final String errorText;
   final bool hasErrorText;
   final Icon icon;
+  final bool borderTextColor;
 
   const InputFormCommon(
       {Key key,
@@ -21,7 +22,8 @@ class InputFormCommon extends StatelessWidget {
       this.onTapHiddenPassword,
       this.errorText,
       this.hasErrorText,
-      this.icon})
+      this.icon,
+      this.borderTextColor})
       : super(key: key);
 
   @override
@@ -46,7 +48,7 @@ class InputFormCommon extends StatelessWidget {
             const Radius.circular(3),
           ),
           borderSide: new BorderSide(
-            color: Color(0xFFDCDCDC),
+            color: borderTextColor == null ? Color(0xFFDCDCDC) : Colors.black54,
             width: 0.5,
           ),
         ),

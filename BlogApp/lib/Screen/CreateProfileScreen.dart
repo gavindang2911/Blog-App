@@ -5,6 +5,7 @@ import 'package:BlogApp/NetworkHandler.dart';
 import 'package:BlogApp/Pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   CreateProfileScreen({Key key}) : super(key: key);
@@ -14,16 +15,17 @@ class CreateProfileScreen extends StatefulWidget {
 }
 
 class _CreateProfileScreenState extends State<CreateProfileScreen> {
+  var log = Logger();
   final networkHandler = NetworkHandler();
   bool circular = false;
   PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  TextEditingController _nameController;
-  TextEditingController _professionController;
-  TextEditingController _dobController;
-  TextEditingController _titlelineController;
-  TextEditingController _aboutController;
+  final _key = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _professionController = TextEditingController();
+  TextEditingController _dobController = TextEditingController();
+  TextEditingController _titlelineController = TextEditingController();
+  TextEditingController _aboutController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
         children: <Widget>[
           imageProfile(),
           SizedBox(
-            height: 20,
+            height: 25,
           ),
           InputFormCommon(
             validator: (value) {
@@ -49,6 +51,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               Icons.person,
               color: Colors.green,
             ),
+            borderTextColor: true,
           ),
           SizedBox(
             height: 10,
@@ -65,6 +68,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               Icons.person,
               color: Colors.green,
             ),
+            borderTextColor: true,
           ),
           SizedBox(
             height: 10,
@@ -81,6 +85,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               Icons.person,
               color: Colors.green,
             ),
+            borderTextColor: true,
           ),
           SizedBox(
             height: 10,
@@ -97,6 +102,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               Icons.person,
               color: Colors.green,
             ),
+            borderTextColor: true,
           ),
           SizedBox(
             height: 10,
@@ -113,15 +119,16 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               Icons.person,
               color: Colors.green,
             ),
+            borderTextColor: true,
           ),
           SizedBox(
             height: 10,
           ),
           InkWell(
             onTap: () async {
-              setState(() {
-                circular = true;
-              });
+              // setState(() {
+              //   circular = true;
+              // });
               if (_key.currentState.validate()) {
                 Map<String, String> data = {
                   "name": _nameController.text,
@@ -130,28 +137,30 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                   "titleline": _titlelineController.text,
                   "about": _aboutController.text,
                 };
+                log.i(data);
                 var response = await networkHandler.post("/profile/add", data);
-                if (response.statusCode == 200 || response.statusCode == 201) {
-                  if (_imageFile.path != null) {
-                    var imageResponse = await networkHandler.patchImage(
-                        "/profile/add/image", _imageFile.path);
-                    if (imageResponse.statusCode == 200) {
-                      setState(() {
-                        circular = false;
-                      });
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => HomePage()),
-                          (route) => false);
-                    }
-                  } else {
-                    setState(() {
-                      circular = false;
-                    });
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                        (route) => false);
-                  }
-                }
+                print(response.statusCode);
+                // if (response.statusCode == 200 || response.statusCode == 201) {
+                //   // if (_imageFile.path != null) {
+                //   //   var imageResponse = await networkHandler.patchImage(
+                //   //       "/profile/add/image", _imageFile.path);
+                //   //   if (imageResponse.statusCode == 200) {
+                //   //     setState(() {
+                //   //       circular = false;
+                //   //     });
+                //   //     Navigator.of(context).pushAndRemoveUntil(
+                //   //         MaterialPageRoute(builder: (context) => HomePage()),
+                //   //         (route) => false);
+                //   //   }
+                //   // } else {
+                //   setState(() {
+                //     circular = false;
+                //   });
+                //   Navigator.of(context).pushAndRemoveUntil(
+                //       MaterialPageRoute(builder: (context) => HomePage()),
+                //       (route) => false);
+                // }
+                // }
               }
             },
             child: Container(
@@ -161,12 +170,14 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
                 color: Colors.teal,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Text(
-                "Submit",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              child: Center(
+                child: Text(
+                  "Submit",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -182,7 +193,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
       child: Stack(
         children: <Widget>[
           CircleAvatar(
-            radius: 80.0,
+            radius: 55.0,
             backgroundImage: _imageFile == null
                 ? AssetImage("assets/google.png")
                 : FileImage(File(_imageFile.path)),
@@ -199,7 +210,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               },
               child: Icon(
                 Icons.camera_alt,
-                color: Colors.teal,
+                color: Colors.black,
                 size: 28,
               ),
             ),

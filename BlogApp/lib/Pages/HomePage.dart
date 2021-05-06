@@ -1,3 +1,4 @@
+import 'package:BlogApp/Screen/CreateProfileScreen.dart';
 import 'package:BlogApp/Screen/HomeScreen.dart';
 import 'package:BlogApp/Screen/ProfileScreen.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ class _HomePageState extends State<HomePage> {
   int currentState = 0;
   List<Widget> widgets = [
     HomeScreen(),
-    ProfileScreen(),
+    // ProfileScreen(),
+    CreateProfileScreen(),
   ];
   List<String> titleString = ["Home Page", "Profile Page"];
   @override
