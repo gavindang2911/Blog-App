@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
-  String baseurl = "http://172.26.157.5:5000";
+  String baseurl = "http://172.29.235.140:5000";
+  // String baseurl = "http://localhost:5000";
   var log = Logger();
   FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -38,7 +40,25 @@ class NetworkHandler {
     return response;
   }
 
+  Future<http.StreamedResponse> patchImage(String url, String filepath) async {
+    url = formater(url);
+    String token = await storage.read(key: "token");
+    var request = http.MultipartRequest('PATCH', Uri.parse(url));
+    request.files.add(await http.MultipartFile.fromPath("img", filepath));
+    request.headers.addAll({
+      "Content-type": "multipart/form-data",
+      "Authorization": "Bearer $token"
+    });
+    var response = request.send();
+    return response;
+  }
+
   String formater(String url) {
     return baseurl + url;
+  }
+
+  NetworkImage getImage(String imageName) {
+    String url = formater("/uploads//$imageName.jpg");
+    return NetworkImage(url);
   }
 }
