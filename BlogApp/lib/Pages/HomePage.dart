@@ -12,8 +12,8 @@ class _HomePageState extends State<HomePage> {
   int currentState = 0;
   List<Widget> widgets = [
     HomeScreen(),
-    // ProfileScreen(),
-    CreateProfileScreen(),
+    ProfileScreen(),
+    // CreateProfileScreen(),
   ];
   List<String> titleString = ["Home Page", "Profile Page"];
   @override

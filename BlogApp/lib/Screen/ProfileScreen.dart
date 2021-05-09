@@ -13,9 +13,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   NetworkHandler networkHandler = NetworkHandler();
-  bool circular = true;
   Widget page = CircularProgressIndicator();
-  ProfileModel profileModel = ProfileModel();
   @override
   void initState() {
     // TODO: implement initState
@@ -27,15 +25,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void checkProfile() async {
     var response = await networkHandler.get("/profile/checkProfile");
     if (response["status"] == true) {
-      fetchData();
       setState(() {
-        page = showProfile();
+        page = ShowProfile();
       });
     } else {
       setState(() {
         page = CreateProfileScreen(); // Show the create profile screen
       });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: page,
+    );
+  }
+}
+
+class ShowProfile extends StatefulWidget {
+  @override
+  _ShowProfileState createState() => _ShowProfileState();
+}
+
+class _ShowProfileState extends State<ShowProfile> {
+  bool circular = true;
+  NetworkHandler networkHandler = NetworkHandler();
+  ProfileModel profileModel = ProfileModel();
+  @override
+  void initState() {
+    super.initState();
+
+    fetchData();
   }
 
   void fetchData() async {
@@ -46,7 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Widget showProfile() {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffEEEEFF),
       appBar: AppBar(
@@ -138,13 +160,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         ],
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: page,
     );
   }
 }
