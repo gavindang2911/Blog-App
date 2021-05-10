@@ -21,8 +21,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // checkLogin();
-    SignInPage();
+    checkLogin();
+    // SignInPage();
   }
 
   Future<void> checkLogin() async {
