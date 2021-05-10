@@ -1,3 +1,4 @@
+import 'package:BlogApp/Blog/Blogs.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Home Page"),
+      backgroundColor: Color(0xffEEEEFF),
+      body: SingleChildScrollView(
+        child: Blogs(
+          url: "/blogpost/getOtherBlog",
+        ),
       ),
     );
   }

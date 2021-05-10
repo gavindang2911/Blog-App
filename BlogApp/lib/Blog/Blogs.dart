@@ -1,8 +1,8 @@
-import 'package:blogapp/Blog/Blog.dart';
-import 'package:blogapp/CustumWidget/BlogCard.dart';
-import 'package:blogapp/Model/SuperModel.dart';
-import 'package:blogapp/Model/addBlogModels.dart';
-import 'package:blogapp/NetworkHandler.dart';
+import 'package:BlogApp/Blog/BlogItem.dart';
+import 'package:BlogApp/Common/BlogCard.dart';
+import 'package:BlogApp/Model/SuperModel.dart';
+import 'package:BlogApp/Model/addBlogModels.dart';
+import 'package:BlogApp/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 
 class Blogs extends StatefulWidget {
@@ -45,7 +45,7 @@ class _BlogsState extends State<Blogs> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (contex) => Blog(
+                                    builder: (contex) => BlogItem(
                                           addBlogModel: item,
                                           networkHandler: networkHandler,
                                         )));
