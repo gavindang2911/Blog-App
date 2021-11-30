@@ -8,7 +8,10 @@ part of 'SuperModel.dart';
 
 SuperModel _$SuperModelFromJson(Map<String, dynamic> json) {
   return SuperModel(
-    data: json['data'] as List,
+    data: (json['data'] as List)
+        ?.map((e) =>
+            e == null ? null : AddBlogModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 

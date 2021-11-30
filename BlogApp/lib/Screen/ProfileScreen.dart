@@ -1,3 +1,4 @@
+import 'package:BlogApp/Blog/Blogs.dart';
 import 'package:BlogApp/Model/profileModel.dart';
 import 'package:BlogApp/Screen/CreateProfileScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   NetworkHandler networkHandler = NetworkHandler();
-  Widget page = CircularProgressIndicator();
+  Widget page;
   @override
   void initState() {
     // TODO: implement initState
@@ -105,9 +106,10 @@ class _ShowProfileState extends State<ShowProfile> {
                 SizedBox(
                   height: 20,
                 ),
-                // Blogs(
-                //   url: "/blogpost/getOwnBlog",
-                // ),
+                Blogs(
+                  url: "/blogpost/getOwnBlog",
+                  circular: false,
+                ),
               ],
             ),
     );

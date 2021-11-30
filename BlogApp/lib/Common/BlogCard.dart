@@ -16,8 +16,8 @@ class BlogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 280,
-      padding: EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+      height: 260,
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       width: MediaQuery.of(context).size.width,
       child: Card(
         child: Stack(
@@ -26,27 +26,44 @@ class BlogCard extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
                 image: DecorationImage(
                     image: networkHandler.getImage(addBlogModel.id),
                     fit: BoxFit.fill),
               ),
             ),
             Positioned(
-              bottom: 2,
+              bottom: 0.1,
               child: Container(
                 padding: EdgeInsets.all(7),
-                height: 60,
+                height: 70,
                 width: MediaQuery.of(context).size.width - 30,
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Text(
-                  addBlogModel.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
+                  color: Colors.white70,
+                  // borderRadius: BorderRadius.circular(8)
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      addBlogModel.title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "By " + addBlogModel.username,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w200,
+                          fontSize: 12,
+                          color: Colors.black45),
+                    ),
+                  ],
                 ),
               ),
             )

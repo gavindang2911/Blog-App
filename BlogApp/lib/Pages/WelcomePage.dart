@@ -16,7 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: Color(0xff4A37D2),
+          color: Colors.grey,
         ),
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),

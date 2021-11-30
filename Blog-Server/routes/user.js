@@ -8,15 +8,31 @@ const middleware = require("../middleware");
 const router = express.Router();
 
 router.route("/:username").get(middleware.checkToken, (req, res) => {
-    User.find({ username: req.params.username},
+    User.findOne({ username: req.params.username},
         (err, result) => {
-            if (err) res.status(500).json({msg});
+            if (err) res.status(500).json({msg : err});
             res.json({
                 data: result,
                 username: req.params.username,
             });
     });
 });
+
+router.route("/checkusername/:username").get((req, res) => {
+    console.log(req.headers["authorization"]);
+    User.findOne({ username: req.params.username}, (err, result) => {
+        if (err) res.status(500).json({msg : err});
+        if (result != null) {
+            return res.json({
+                Status: true,
+            });
+        } else {
+            return res.json({
+                Status: false,
+            });
+        }
+    });
+})
 
 router.route("/login").post((req, res) => {
     User.findOne({ username: req.body.username }, (err, result) => {

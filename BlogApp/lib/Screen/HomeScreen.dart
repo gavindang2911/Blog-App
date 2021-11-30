@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Blogs(
           url: "/blogpost/getOtherBlog",
+          circular: true,
         ),
       ),
     );

@@ -170,7 +170,7 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
               child: Center(
                 child: circular
-                    ? CircularProgressIndicator()
+                    ? Center(child: CircularProgressIndicator())
                     : Text(
                         "Submit",
                         style: TextStyle(
